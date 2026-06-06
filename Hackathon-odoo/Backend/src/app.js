@@ -31,7 +31,7 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/activities", activityRoutes);
 app.use("/api/reports", reportRoutes);
 
-// General Error Handler
+app.get('/api/health', (req, res) => { res.json({ status: 'ok' }); });
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Internal Server Error");

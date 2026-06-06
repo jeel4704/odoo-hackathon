@@ -9,13 +9,30 @@ function generateOTP() {
 }
 
 exports.register = (req, res) => {
+  // Extract fields from request body
   const { name, email, password, role } = req.body;
 
-  db.query("SELECT * FROM users WHERE email = ?", [email], (err, results) => {
-    if (err) return res.status(500).send(err);
+  // Trim/normalise input fields
+  const cleanEmail = email?.trim().toLowerCase();
+  const cleanName = name?.trim();
+  if (!cleanName) return res.status(400).send("Name is required");
+  if (!cleanEmail) return res.status(400).send("Email is required");
+  if (!password) return res.status(400).send("Password is required");
+  if (!role) return res.status(400).send("Role is required");
+
+
+  // Allowed roles
+  const allowedRoles = ["admin", "procurement", "vendor", "manager"]; // system admin
+  if (!allowedRoles.includes(role)) {
+    return res.status(400).send("Invalid role specified");
+  }
+
+  // Proceed with DB check
+  db.query("SELECT * FROM users WHERE email = ?", [cleanEmail], (err, results) => {
+    if (err) { console.error('DB error during registration:', err); return res.status(500).send(err); }
 
     const otp = generateOTP();
-    const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
+    const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
     const hash = bcrypt.hashSync(password, 10);
 
     if (results.length > 0) {
@@ -23,32 +40,29 @@ exports.register = (req, res) => {
       if (user.verified) {
         return res.status(400).send("Email already registered and verified");
       }
-
-      // Update existing unverified user with new details & new OTP
+      // Update existing unverified user
       db.query(
         "UPDATE users SET name = ?, password = ?, role = ?, otp = ?, otp_expires_at = ? WHERE email = ?",
-        [name, hash, role, otp, otpExpires, email],
+        [cleanName, hash, role, otp, otpExpires, cleanEmail],
         (err) => {
-          if (err) return res.status(500).send(err);
-          // Dispatch email in the background asynchronously to prevent blocking the HTTP response
-          emailService.sendOTPEmail(email, otp).catch((e) => {
+          if (err) { console.error('DB update error during registration:', err); return res.status(500).send(err); }
+          emailService.sendOTPEmail(cleanEmail, otp).catch((e) => {
             console.error("Failed to send OTP email in background:", e.message);
           });
-          res.json({ otpSent: true, email });
+          res.json({ otpSent: true, email: cleanEmail });
         }
       );
     } else {
-      // Create new unverified user record
+      // Insert new user
       db.query(
         "INSERT INTO users (name, email, password, role, verified, otp, otp_expires_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [name, email, hash, role, 0, otp, otpExpires],
+        [cleanName, cleanEmail, hash, role, 0, otp, otpExpires],
         (err) => {
-          if (err) return res.status(500).send(err);
-          // Dispatch email in the background asynchronously to prevent blocking the HTTP response
-          emailService.sendOTPEmail(email, otp).catch((e) => {
+          if (err) { console.error('DB insert error during registration:', err); return res.status(500).send(err); }
+          emailService.sendOTPEmail(cleanEmail, otp).catch((e) => {
             console.error("Failed to send OTP email in background:", e.message);
           });
-          res.json({ otpSent: true, email });
+          res.json({ otpSent: true, email: cleanEmail });
         }
       );
     }
@@ -105,8 +119,11 @@ exports.registerVerify = (req, res) => {
 
 exports.login = (req, res) => {
   const { email, password } = req.body;
-
-  db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
+  console.log('Login request:', { email, password });
+  if (!email || !password) return res.status(400).send('Email and password are required');
+  const cleanEmail = email?.trim().toLowerCase();
+  db.query("SELECT * FROM users WHERE email = ?", [cleanEmail], (err, result) => {
+    // existing logic unchanged below
     if (err) return res.status(500).send(err);
 
     const user = result[0];
