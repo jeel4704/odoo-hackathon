@@ -101,13 +101,7 @@ export default function Login() {
                 <Mail className="h-5 w-5" />
               </div>
               <input
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$/i,
-                    message: "Please enter a valid email address",
-                  },
-                })}
+                {...register('email')}
                 type="email"
                 placeholder="name@company.com"
                 className={`w-full bg-slate-900/40 border ${

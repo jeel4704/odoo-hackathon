@@ -271,19 +271,12 @@ export default function Register() {
               <User className="h-4 w-4" />
             </div>
             <input
-              {...register('name', { required: 'Name is required' })}
+              {...register('name')}
               type="text"
               placeholder="John Doe"
-              className={`w-full bg-slate-900/40 border ${
-                errors.name
-                  ? 'border-red-500 focus:ring-red-500/20'
-                  : 'border-slate-800 focus:border-emerald-500 focus:ring-emerald-500/20'
-              } rounded-xl pl-11 pr-4 py-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-4 transition-all duration-200`}
+              className="w-full bg-slate-900/40 border border-slate-800 focus:border-emerald-500 focus:ring-emerald-500/20 rounded-xl pl-11 pr-4 py-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-4 transition-all duration-200"
             />
           </div>
-          {errors.name && (
-            <p className="text-xs text-red-400 font-medium">{errors.name.message}</p>
-          )}
         </div>
 
         {/* Email Input */}
@@ -296,25 +289,12 @@ export default function Register() {
               <Mail className="h-4 w-4" />
             </div>
             <input
-              {...register('email', {
-                required: 'Email is required',
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: 'Please enter a valid email address'
-                }
-              })}
+              {...register('email')}
               type="email"
               placeholder="name@company.com"
-              className={`w-full bg-slate-900/40 border ${
-                errors.email
-                  ? 'border-red-500 focus:ring-red-500/20'
-                  : 'border-slate-800 focus:border-emerald-500 focus:ring-emerald-500/20'
-              } rounded-xl pl-11 pr-4 py-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-4 transition-all duration-200`}
+              className="w-full bg-slate-900/40 border border-slate-800 focus:border-emerald-500 focus:ring-emerald-500/20 rounded-xl pl-11 pr-4 py-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-4 transition-all duration-200"
             />
           </div>
-          {errors.email && (
-            <p className="text-xs text-red-400 font-medium">{errors.email.message}</p>
-          )}
         </div>
 
         {/* Password Input */}
@@ -327,25 +307,12 @@ export default function Register() {
               <Lock className="h-4 w-4" />
             </div>
             <input
-              {...register('password', {
-                required: 'Password is required',
-                minLength: {
-                  value: 6,
-                  message: 'Password must be at least 6 characters long'
-                }
-              })}
+              {...register('password')}
               type="password"
               placeholder="••••••••"
-              className={`w-full bg-slate-900/40 border ${
-                errors.password
-                  ? 'border-red-500 focus:ring-red-500/20'
-                  : 'border-slate-800 focus:border-emerald-500 focus:ring-emerald-500/20'
-              } rounded-xl pl-11 pr-4 py-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-4 transition-all duration-200`}
+              className="w-full bg-slate-900/40 border border-slate-800 focus:border-emerald-500 focus:ring-emerald-500/20 rounded-xl pl-11 pr-4 py-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-4 transition-all duration-200"
             />
           </div>
-          {errors.password && (
-            <p className="text-xs text-red-400 font-medium">{errors.password.message}</p>
-          )}
         </div>
 
         {/* Role Select Input */}
@@ -358,7 +325,7 @@ export default function Register() {
               <Briefcase className="h-4 w-4" />
             </div>
             <select
-              {...register('role', { required: 'Role is required' })}
+              {...register('role')}
               className="w-full bg-slate-900/40 border border-slate-800 focus:border-emerald-500 focus:ring-emerald-500/20 rounded-xl pl-11 pr-4 py-2.5 text-slate-300 focus:outline-none focus:ring-4 transition-all duration-200 cursor-pointer appearance-none animate-none"
             >
               <option value="admin" className="bg-slate-900 text-slate-300">System Administrator</option>
