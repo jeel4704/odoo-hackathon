@@ -22,8 +22,8 @@ export default function Navbar() {
         </button>
         <div className="flex items-center gap-3">
           <div className="text-sm">
-            <div className="font-semibold">{user?.name || 'Admin'}</div>
-            <div className="text-xs text-slate-500">Procurement</div>
+            <div className="font-semibold text-slate-800 dark:text-slate-200">{user?.name || 'Admin'}</div>
+            <div className="text-xs text-slate-500 capitalize">{user?.role || 'procurement'}</div>
           </div>
         </div>
       </div>
