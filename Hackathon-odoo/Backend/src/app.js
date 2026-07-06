@@ -17,11 +17,28 @@ const reportRoutes = require("./routes/report.routes");
 const app = express();
 
 const allowedOrigins = [
-  process.env.CORS_ORIGIN || 'http://localhost:5173', // dev
-  // add production URL after deployment, e.g.:
-  // 'https://your-frontend.vercel.app'
+  'http://localhost:5173',
+  'http://localhost:3000'
 ];
-app.use(cors({ origin: allowedOrigins, credentials: true }));
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, postman)
+    if (!origin) return callback(null, true);
+    
+    const cleanCorsOrigin = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.trim().replace(/\/$/, "") : null;
+    
+    const isAllowed = allowedOrigins.includes(origin) || 
+                      origin.endsWith('.vercel.app') || 
+                      origin === cleanCorsOrigin;
+                      
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 app.use(express.json());
 
 // Routes Mappings
