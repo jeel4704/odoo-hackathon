@@ -87,7 +87,7 @@ export default function Dashboard() {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <DashboardCard 
-          title="Total Vendors" 
+          title={user?.role === 'vendor' ? "RFQs Invited" : "Total Vendors"} 
           value={stats.totalVendors} 
           icon={<Users className="w-5 h-5 text-emerald-500" />}
         />
@@ -97,12 +97,12 @@ export default function Dashboard() {
           icon={<FileText className="w-5 h-5 text-indigo-500" />}
         />
         <DashboardCard 
-          title="Pending Approvals" 
+          title={user?.role === 'vendor' ? "Submitted Bids" : "Pending Approvals"} 
           value={stats.pendingApprovals} 
           icon={<ClipboardList className="w-5 h-5 text-amber-500" />}
         />
         <DashboardCard 
-          title="Purchase Orders" 
+          title={user?.role === 'vendor' ? "My Purchase Orders" : "Purchase Orders"} 
           value={stats.totalPOs} 
           icon={<DollarSign className="w-5 h-5 text-teal-500" />}
         />
