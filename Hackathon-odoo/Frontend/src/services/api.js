@@ -1,4 +1,6 @@
 import axios from 'axios'
+// Trigger comment to force Vercel rebuild and load latest environment variables
+
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || '/api',
