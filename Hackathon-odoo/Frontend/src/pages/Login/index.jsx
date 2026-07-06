@@ -60,7 +60,7 @@ export default function Login() {
         message: `Welcome back, ${user.name || "User"}!`,
       });
 
-      nav("/");
+      nav("/app");
     } catch (err) {
       // Extract a user-friendly error message
       const errorMsg =
