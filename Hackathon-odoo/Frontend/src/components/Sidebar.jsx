@@ -30,6 +30,7 @@ export default function Sidebar() {
   const [open, setOpen] = useState(true)
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  console.log("Sidebar Auth User:", user);
 
   const handleLogout = () => {
     logout()
