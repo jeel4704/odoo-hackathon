@@ -4,24 +4,24 @@ import { Menu, ChevronLeft, Home, Users, FileText, File, ClipboardList, DollarSi
 import { useAuth } from '../context/AuthContext'
 
 const groups = [
-  { title: 'Main', items: [{ to: '/', label: 'Dashboard', icon: Home }] },
+  { title: 'Main', items: [{ to: '/app', label: 'Dashboard', icon: Home }] },
   {
     title: 'Procurement',
     items: [
-      { to: '/vendors', label: 'Vendors', icon: Users },
-      { to: '/rfqs', label: 'RFQs', icon: FileText },
-      { to: '/quotations', label: 'Quotations', icon: File },
-      { to: '/approvals', label: 'Approvals', icon: ClipboardList },
-      { to: '/pos', label: 'Purchase Orders', icon: DollarSign },
-      { to: '/invoices', label: 'Invoices', icon: File }
+      { to: '/app/vendors', label: 'Vendors', icon: Users },
+      { to: '/app/rfqs', label: 'RFQs', icon: FileText },
+      { to: '/app/quotations', label: 'Quotations', icon: File },
+      { to: '/app/approvals', label: 'Approvals', icon: ClipboardList },
+      { to: '/app/pos', label: 'Purchase Orders', icon: DollarSign },
+      { to: '/app/invoices', label: 'Invoices', icon: File }
     ]
   },
   { 
     title: 'Others', 
     items: [
-      { to: '/reports', label: 'Reports', icon: FileText }, 
-      { to: '/notifications', label: 'Notifications', icon: Bell }, 
-      { to: '/settings', label: 'Settings', icon: Settings }
+      { to: '/app/reports', label: 'Reports', icon: FileText }, 
+      { to: '/app/notifications', label: 'Notifications', icon: Bell }, 
+      { to: '/app/settings', label: 'Settings', icon: Settings }
     ] 
   }
 ]
