@@ -40,15 +40,16 @@ export default function Sidebar() {
   // Filter sidebar items based on Role-Based Access Control
   const filteredGroups = groups.map(group => {
     const items = group.items.filter(item => {
-      if (user?.role === 'vendor') {
+      const userRole = user?.role?.toLowerCase();
+      if (userRole === 'vendor') {
         // Vendors are restricted from viewing Vendors, Approvals, and Reports
-        if (item.to === '/vendors' || item.to === '/approvals' || item.to === '/reports') {
+        if (item.to === '/app/vendors' || item.to === '/app/approvals' || item.to === '/app/reports') {
           return false;
         }
       }
-      if (user?.role === 'manager') {
+      if (userRole === 'manager') {
         // Managers do not manage Vendor list directly
-        if (item.to === '/vendors') return false;
+        if (item.to === '/app/vendors') return false;
       }
       return true;
     });
