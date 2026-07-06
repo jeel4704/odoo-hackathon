@@ -50,11 +50,13 @@ export default function Register() {
     } catch (err) {
       console.warn('Backend register request failed. Handling fallback...', err)
       
-      // If the backend is active and returned a real error (like 400 Bad Request), display it
+      // If the backend is active and returned a real error, display it
       if (err.response) {
+        const errorData = err.response.data;
+        const msg = (typeof errorData === 'object' ? (errorData.error || errorData.message) : errorData) || 'Could not initiate registration.';
         toast.push({
           title: 'Registration Failed',
-          message: err.response.data || 'Could not initiate registration.'
+          message: msg
         })
         setIsLoading(false)
         return

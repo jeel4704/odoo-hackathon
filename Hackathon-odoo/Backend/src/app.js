@@ -16,7 +16,12 @@ const reportRoutes = require("./routes/report.routes");
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+  process.env.CORS_ORIGIN || 'http://localhost:5173', // dev
+  // add production URL after deployment, e.g.:
+  // 'https://your-frontend.vercel.app'
+];
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json());
 
 // Routes Mappings

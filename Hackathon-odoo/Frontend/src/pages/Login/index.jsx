@@ -64,6 +64,7 @@ export default function Login() {
     } catch (err) {
       // Extract a user-friendly error message
       const errorMsg =
+        err.response?.data?.error ||
         err.response?.data?.message ||
         (err.response?.status === 401
           ? "Invalid email or password."
